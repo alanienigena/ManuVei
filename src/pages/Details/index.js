@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import database from '../../config/firebase';
 import styles from './style';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function Details({ navigation, route }) {
   const [descriptionEdit, setDescriptionEdit] = useState(route.params.description);
@@ -9,15 +10,18 @@ export default function Details({ navigation, route }) {
   const [modelEdit, setModelEdit] = useState(route.params.model);
   const [brandEdit, setBrandEdit] = useState(route.params.brand);
   const [observationEdit, setObservationEdit] = useState(route.params.observation);
+  const [expenseEdit, setExpenseEdit] = useState(route.params.expense);
+
   const idTask = route.params.id;
 
-  function editTask(description, date, model, brand, observation, id) {
+  function editTask(description, date, model, brand, observation, expense, id) {
     database.collection('Tasks').doc(id).update({
       description: description,
       date: date,
       model: model,
       brand: brand,
       observation: observation,
+      expense: expense,
     });
     navigation.navigate('ManuVei');
   }
@@ -64,10 +68,35 @@ export default function Details({ navigation, route }) {
         value={observationEdit}
       />
 
+      <Text style={styles.label}>Valor Gasto</Text>
+      <TextInputMask
+        style={styles.input}
+        placeholder="Ex: 100.00"
+        type="money"
+        options={{
+          precision: 2,
+          separator: '.',
+          delimiter: ',',
+          unit: 'R$ ',
+          suffixUnit: '',
+        }}
+        value={expenseEdit}
+        onChangeText={setExpenseEdit}
+        keyboardType="numeric"
+      />
+
       <TouchableOpacity
         style={styles.buttonNewTask}
         onPress={() => {
-          editTask(descriptionEdit, dateEdit, modelEdit, brandEdit, observationEdit, idTask);
+          editTask(
+            descriptionEdit,
+            dateEdit,
+            modelEdit,
+            brandEdit,
+            observationEdit,
+            expenseEdit,
+            idTask
+          );
         }}
       >
         <Text style={styles.iconButton}>Salvar</Text>

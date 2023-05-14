@@ -5,13 +5,13 @@ import database from '../../config/firebase';
 import styles from './style';
 import { TextInputMask } from 'react-native-masked-text';
 
-
 export default function Task({ navigation }) {
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filterModel, setFilterModel] = useState('');
   const [filterBrand, setFilterBrand] = useState('');
   const [filterDate, setFilterDate] = useState('');
+  const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
     const unsubscribe = database.collection('Tasks').onSnapshot((snapshot) => {
@@ -21,6 +21,7 @@ export default function Task({ navigation }) {
       }));
       setTasks(list);
       setFilteredTasks(list); // Inicialmente, exibe todas as tarefas
+      calculateTotalExpense(list); // Calcula o valor total gasto
     });
 
     return () => unsubscribe();
@@ -53,7 +54,14 @@ export default function Task({ navigation }) {
     }
 
     setFilteredTasks(filtered);
+    calculateTotalExpense(filtered); // Recalcula o valor total gasto com as tarefas filtradas
   }
+
+  function calculateTotalExpense(tasks) {
+    const total = tasks.reduce((sum, task) => sum + parseFloat(task.expense.replace(/[^0-9.-]+/g, '')), 0);
+    setTotalExpense(total);
+  }
+
 
   return (
     <View style={styles.container}>
@@ -78,13 +86,17 @@ export default function Task({ navigation }) {
         placeholder="Filtrar por data - Mês e Ano"
         type="datetime"
         options={{
-        format: 'MM/YYYY',
-      }}
-      value={filterDate}
-      onChangeText={(text) => setFilterDate(text)}
-      onBlur={handleFilterTasks}
-/>
+          format: 'MM/YYYY',
+        }}
+        value={filterDate}
+        onChangeText={(text) => setFilterDate(text)}
+        onBlur={handleFilterTasks}
+      />
 
+      <View style={styles.totalExpenseContainer}>
+        <Text style={styles.totalExpenseLabel}>Valor Total Gasto:</Text>
+        <Text style={styles.totalExpenseValue}>R$ {totalExpense.toFixed(2)}</Text>
+      </View>
 
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -108,6 +120,7 @@ export default function Task({ navigation }) {
                   model: item.model,
                   brand: item.brand,
                   observation: item.observation,
+                  expense: item.expense, // Adicionando o valor gasto à navegação
                 })
               }
             >
@@ -116,10 +129,12 @@ export default function Task({ navigation }) {
               <Text style={styles.taskModel}>{item.model}</Text>
               <Text style={styles.taskBrand}>{item.brand}</Text>
               <Text style={styles.taskObservation}>{item.observation}</Text>
+              <Text style={styles.taskExpense}>{item.expense}</Text>
             </TouchableOpacity>
           </View>
         )}
       />
+
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('Registrar')}

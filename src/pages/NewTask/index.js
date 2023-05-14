@@ -5,6 +5,7 @@ import database from '../../config/firebase.js';
 import styles from './style';
 
 const carBrands = [
+  'Selecionar',
   'Toyota',
   'Honda',
   'Ford',
@@ -28,6 +29,7 @@ const carBrands = [
 ];
 
 const carModels = [
+  'Selecionar',
   'Sedan',
   'Hatch',
   'SUV',
@@ -56,9 +58,16 @@ export default function NewTask({ navigation }, props) {
   const [brand, setBrand] = useState('');
   const [observation, setObservation] = useState('');
   const [date, setDate] = useState('');
+  const [expense, setExpense] = useState('');
 
   function addTask() {
-    if (description === '' || model === '' || brand === '' || date === '') {
+    if (
+      description === '' ||
+      model === '' ||
+      brand === '' ||
+      date === '' ||
+      expense === ''
+    ) {
       alert('Preencha todos os campos obrigatórios!');
       return;
     }
@@ -69,6 +78,7 @@ export default function NewTask({ navigation }, props) {
       brand: brand,
       observation: observation,
       date: date,
+      expense: expense,
       status: false,
     });
     navigation.navigate('ManuVei');
@@ -108,17 +118,29 @@ export default function NewTask({ navigation }, props) {
         style={styles.input}
         placeholder="Ex: DD/MM/AAAA"
         type="datetime"
-        options={{
-          format: 'DD/MM/YYYY',
-        }}
+        options={{ format: 'DD/MM/YYYY' }}
         value={date}
         onChangeText={setDate}
+      />
+      <Text style={styles.label}>Valor Gasto</Text>
+      <TextInputMask
+        style={styles.input}
+        placeholder="Ex: R$ 100,00"
+        type="money"
+        options={{
+          precision: 2,
+          separator: ',',
+          delimiter: '.',
+          unit: 'R$',
+          suffixUnit: '',
+        }}
+        value={expense}
+        onChangeText={setExpense}
       />
       <Text style={styles.label}>Observação</Text>
       <TextInput
         style={styles.input}
         placeholder="Observações adicionais"
-
         onChangeText={setObservation}
         value={observation}
       />

@@ -68,6 +68,22 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  totalExpenseContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  totalExpenseLabel: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  totalExpenseValue: {
+    fontSize: 16,
+  },
 });
 
 export default styles;
