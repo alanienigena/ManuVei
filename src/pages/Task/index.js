@@ -62,36 +62,37 @@ export default function Task({ navigation }) {
     setTotalExpense(total);
   }
 
-
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Filtrar por modelo"
-        onChangeText={(text) => setFilterModel(text)}
-        value={filterModel}
-        onBlur={handleFilterTasks}
-      />
+      <View style={styles.filterContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Filtrar por modelo"
+          onChangeText={(text) => setFilterModel(text)}
+          value={filterModel}
+          onBlur={handleFilterTasks}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Filtrar por marca"
-        onChangeText={(text) => setFilterBrand(text)}
-        value={filterBrand}
-        onBlur={handleFilterTasks}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Filtrar por marca"
+          onChangeText={(text) => setFilterBrand(text)}
+          value={filterBrand}
+          onBlur={handleFilterTasks}
+        />
 
-      <TextInputMask
-        style={styles.input}
-        placeholder="Filtrar por data - Mês e Ano"
-        type="datetime"
-        options={{
-          format: 'MM/YYYY',
-        }}
-        value={filterDate}
-        onChangeText={(text) => setFilterDate(text)}
-        onBlur={handleFilterTasks}
-      />
+        <TextInputMask
+          style={styles.input}
+          placeholder="Filtrar por data - Mês e Ano"
+          type="datetime"
+          options={{
+            format: 'MM/YYYY',
+          }}
+          value={filterDate}
+          onChangeText={(text) => setFilterDate(text)}
+          onBlur={handleFilterTasks}
+        />
+      </View>
 
       <View style={styles.totalExpenseContainer}>
         <Text style={styles.totalExpenseLabel}>Valor Total Gasto:</Text>
@@ -99,49 +100,58 @@ export default function Task({ navigation }) {
       </View>
 
       <FlatList
-        showsVerticalScrollIndicator={false}
-        data={filteredTasks}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.taskContainer}>
-            <TouchableOpacity
-              style={styles.deleteTask}
-              onPress={() => handleDeleteTask(item.id)}
-            >
-              <FontAwesome name="trash" size={23} color="#0047b3" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.taskDescriptionContainer}
-              onPress={() =>
-                navigation.navigate('Detalhes', {
-                  id: item.id,
-                  description: item.description,
-                  date: item.date,
-                  model: item.model,
-                  brand: item.brand,
-                  observation: item.observation,
-                  expense: item.expense, // Adicionando o valor gasto à navegação
-                })
-              }
-            >
-              <Text style={styles.taskDescription}>{item.description}</Text>
-              <Text style={styles.taskDate}>{item.date}</Text>
-              <Text style={styles.taskModel}>{item.model}</Text>
-              <Text style={styles.taskBrand}>{item.brand}</Text>
-              <Text style={styles.taskObservation}>{item.observation}</Text>
-              <Text style={styles.taskExpense}>{item.expense}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+showsVerticalScrollIndicator={false}
+data={filteredTasks}
+keyExtractor={(item) => item.id}
+renderItem={({ item }) => (
+<View style={styles.taskContainer}>
+<TouchableOpacity
+style={styles.deleteTask}
+onPress={() => handleDeleteTask(item.id)}
+>
+<FontAwesome name="trash" size={23} color="#0047b3" />
+</TouchableOpacity>
+<TouchableOpacity
+          style={styles.taskDescriptionContainer}
+          onPress={() =>
+            navigation.navigate('Detalhes', {
+              id: item.id,
+              description: item.description,
+              date: item.date,
+              model: item.model,
+              brand: item.brand,
+              observation: item.observation,
+              expense: item.expense, // Adicionando o valor gasto à navegação
+              isCompleted: item.isCompleted, // Adicionando o status de conclusão à navegação
+            })
+          }
+        >
+          <Text style={styles.taskDescription}>{item.description}</Text>
+          <Text style={styles.taskDate}>{item.date}</Text>
+          <Text style={styles.taskModel}>{item.model}</Text>
+          <Text style={styles.taskBrand}>{item.brand}</Text>
+          <Text style={styles.taskObservation}>{item.observation}</Text>
+          <Text style={styles.taskExpense}>{item.expense}</Text>
 
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Registrar')}
-      >
-        <Text style={styles.addButtonIcon}>+</Text>
-      </TouchableOpacity>
-    </View>
-  );
+          {item.isCompleted && (
+            <FontAwesome
+              name="check-circle"
+              size={20}
+              color="#28a745"
+              style={styles.taskIcon}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
+    )}
+  />
+
+  <TouchableOpacity
+    style={styles.addButton}
+    onPress={() => navigation.navigate('Registrar')}
+  >
+    <Text style={styles.addButtonIcon}>+</Text>
+  </TouchableOpacity>
+</View>
+);
 }
-

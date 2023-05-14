@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
 import database from '../../config/firebase';
 import styles from './style';
 import { TextInputMask } from 'react-native-masked-text';
@@ -11,10 +11,11 @@ export default function Details({ navigation, route }) {
   const [brandEdit, setBrandEdit] = useState(route.params.brand);
   const [observationEdit, setObservationEdit] = useState(route.params.observation);
   const [expenseEdit, setExpenseEdit] = useState(route.params.expense);
+  const [isCompleted, setIsCompleted] = useState(route.params.isCompleted);
 
   const idTask = route.params.id;
 
-  function editTask(description, date, model, brand, observation, expense, id) {
+  function editTask(description, date, model, brand, observation, expense, isCompleted, id) {
     database.collection('Tasks').doc(id).update({
       description: description,
       date: date,
@@ -22,6 +23,7 @@ export default function Details({ navigation, route }) {
       brand: brand,
       observation: observation,
       expense: expense,
+      isCompleted: isCompleted,
     });
     navigation.navigate('ManuVei');
   }
@@ -85,6 +87,13 @@ export default function Details({ navigation, route }) {
         keyboardType="numeric"
       />
 
+      <View style={styles.checkboxContainer}>
+        <Text style={styles.checkboxLabel}>Manutenção Realizada</Text>
+        <Switch
+          value={isCompleted}
+          onValueChange={(value) => setIsCompleted(value)}
+        />
+      </View>       
       <TouchableOpacity
         style={styles.buttonNewTask}
         onPress={() => {
@@ -95,6 +104,7 @@ export default function Details({ navigation, route }) {
             brandEdit,
             observationEdit,
             expenseEdit,
+            isCompleted,
             idTask
           );
         }}
@@ -104,3 +114,6 @@ export default function Details({ navigation, route }) {
     </View>
   );
 }
+
+
+     
