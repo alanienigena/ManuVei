@@ -99,79 +99,81 @@ export default function NewTask({ navigation }, props) {
 
   return (
     <View style={styles.container}>
-      {/* Campo de edição: Descrição */}
-      <Text style={styles.label}>Descrição</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Troca de óleo, Revisão, etc."
-        onChangeText={setDescription}
-        value={description}
-      />
-            {/* Campo de seleção: Modelo */}
-            <Text style={styles.label}>Modelo</Text>
-      <Picker
-        style={styles.input}
-        selectedValue={model}
-        onValueChange={(itemValue) => setModel(itemValue)}
-      >
-        {carModels.map((carModel) => (
-          <Picker.Item key={carModel} label={carModel} value={carModel} />
-        ))}
-      </Picker>
+      <View style={styles.content}>
+        {/* Campo de edição: Descrição */}
+        <Text style={styles.label}>Descrição</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Troca de óleo, Revisão, etc."
+          onChangeText={setDescription}
+          value={description}
+        />
+        {/* Campo de seleção: Modelo */}
+        <Text style={styles.label}>Modelo</Text>
+        <Picker
+          style={styles.input}
+          selectedValue={model}
+          onValueChange={(itemValue) => setModel(itemValue)}
+        >
+          {carModels.map((carModel) => (
+            <Picker.Item key={carModel} label={carModel} value={carModel} />
+          ))}
+        </Picker>
 
-      {/* Campo de seleção: Marca */}
-      <Text style={styles.label}>Marca</Text>
-      <Picker
-        style={styles.input}
-        selectedValue={brand}
-        onValueChange={(itemValue) => setBrand(itemValue)}
-      >
-        {carBrands.map((carBrand) => (
-          <Picker.Item key={carBrand} label={carBrand} value={carBrand} />
-        ))}
-      </Picker>
+        {/* Campo de seleção: Marca */}
+        <Text style={styles.label}>Marca</Text>
+        <Picker
+          style={styles.input}
+          selectedValue={brand}
+          onValueChange={(itemValue) => setBrand(itemValue)}
+        >
+          {carBrands.map((carBrand) => (
+            <Picker.Item key={carBrand} label={carBrand} value={carBrand} />
+          ))}
+        </Picker>
 
-      {/* Campo de edição: Data */}
-      <Text style={styles.label}>Data</Text>
-      <TextInputMask
-        style={styles.input}
-        placeholder="Ex: DD/MM/AAAA"
-        type="datetime"
-        options={{ format: 'DD/MM/YYYY' }}
-        value={date}
-        onChangeText={setDate}
-      />
+        {/* Campo de edição: Data */}
+        <Text style={styles.label}>Data</Text>
+        <TextInputMask
+          style={styles.input}
+          placeholder="Ex: DD/MM/AAAA"
+          type="datetime"
+          options={{ format: 'DD/MM/YYYY' }}
+          value={date}
+          onChangeText={setDate}
+        />
 
-      {/* Campo de edição: Valor Gasto */}
-      <Text style={styles.label}>Valor Gasto</Text>
-      <TextInputMask
-        style={styles.input}
-        placeholder="Ex: R$ 100,00"
-        type="money"
-        options={{
-          precision: 2,
-          separator: '.',
-          delimiter: ',',
-          unit: 'R$',
-          suffixUnit: '',
-        }}
-        value={expense}
-        onChangeText={setExpense}
-      />
+        {/* Campo de edição: Valor Gasto */}
+        <Text style={styles.label}>Valor Gasto</Text>
+        <TextInputMask
+          style={styles.input}
+          placeholder="Ex: R$ 100,00"
+          type="money"
+          options={{
+            precision: 2,
+            separator: '.',
+            delimiter: ',',
+            unit: 'R$',
+            suffixUnit: '',
+          }}
+          value={expense}
+          onChangeText={setExpense}
+        />
 
-      {/* Campo de edição: Observação */}
-      <Text style={styles.label}>Observação</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Observações adicionais"
-        onChangeText={setObservation}
-        value={observation}
-      />
+        {/* Campo de edição: Observação */}
+        <Text style={styles.label}>Observação</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Observações adicionais"
+          onChangeText={setObservation}
+          value={observation}
+        />
 
-      {/* Botão para salvar a nova tarefa */}
-      <TouchableOpacity style={styles.buttonNewTask} onPress={addTask}>
-        <Text style={styles.iconButton}>Salvar</Text>
-      </TouchableOpacity>
+        {/* Botão para salvar a nova tarefa */}
+        <TouchableOpacity style={styles.buttonNewTask} onPress={addTask}>
+          <Text style={styles.iconButton}>Registrar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

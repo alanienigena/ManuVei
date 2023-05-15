@@ -4,30 +4,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 20
+    padding: 20,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  content: {
+    width: '100%',
+    maxWidth: '768px',
   },
   label: {
-    width: '90%',
-    marginTop: 20,
-    fontSize: 16,
-    marginLeft: 20,
-    color: '#2C3E50'
+    fontWeight: 400,
+    fontSize: 14,
+    lineHeight: 17,
+    color: 'rgba(0, 0, 0, 0.6)',
+    marginTop: 15,
   },
   input: {
-    width: '90%',
-    marginTop: 10,
-    padding: 10,
-    height: 50,
-    borderBottomWidth: 1,
-    borderBottomColor: '#2C3E50',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    width: '100%',
+    height: 40,
+    marginTop: 5,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0, 0.2)',
+    borderRadius: 5,
   },
   buttonNewTask: {
-    width: 120,
-    height: 50,
+    width: '100%',
+    height: 40,
     marginTop: 20,
-    backgroundColor: '#2C3E50',
+    backgroundColor: '#0047b3',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

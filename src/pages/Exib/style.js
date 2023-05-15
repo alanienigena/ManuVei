@@ -1,13 +1,46 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  filterTitulo: {
+    fontWeight: 500,
+    fontSize: 18,
+    lineHeight: 22,
+    color: '#000000',
+    marginBottom: 20
+  },
+  manutencoesTitulo: {
+    fontWeight: 500,
+    fontSize: 18,
+    lineHeight: 22,
+    color: '#000000',
+    marginTop: 20,
+    marginBottom: 20
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 20,
-    width: '80%',
+    paddingTop: 30,
+    paddingBottom: 30,
+    width: '100%',
+    maxWidth: '1170px',
     alignSelf: 'center',
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 50,
+    borderRadius: 5
+  },
+  filterContainer: {
+    width: '33.33%',
+    marginBottom: 20,
+    display: 'flex',
+    paddingRight: 30,
+  },
+  contentContainer: {
+    width: '66.66%',
+  },
+  filterItem: {
+    marginBottom: 5,
   },
   input: {
     height: 40,
@@ -16,11 +49,25 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
+    fontWeight: 400,
+    fontSize: 14,
+    lineHeight: 17,
+    color: '#000000',
   },
-  filterContainer: {
-    marginBottom: 20,
+  statusPicker: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    fontWeight: 400,
+    fontSize: 14,
+    lineHeight: 17,
+    color: '#000000',
   },
   filterButton: {
+    height: 40,
     backgroundColor: '#0047b3',
     padding: 10,
     borderRadius: 8,
@@ -29,9 +76,6 @@ const styles = StyleSheet.create({
   filterButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
-  statusPicker: {
-    marginBottom: 10,
   },
   taskContainer: {
     flexDirection: 'row',
@@ -51,10 +95,6 @@ const styles = StyleSheet.create({
   },
   taskDetailsContainer: {
     flexDirection: 'row',
-    marginBottom: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    paddingBottom: 10,
   },
   taskColumn: {
     flex: 1,
@@ -67,6 +107,7 @@ const styles = StyleSheet.create({
   taskValue: {
     fontSize: 14,
     marginBottom: 5,
+    fontWeight: 'normal',
   },
   taskIcon: {
     position: 'absolute',
@@ -74,10 +115,10 @@ const styles = StyleSheet.create({
     right: 10,
   },
   addButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 150,
+    position: 'fixed',
+    bottom: 40,
+    right: 40,
+    width: 60,
     height: 60,
     borderRadius: 30,
     backgroundColor: '#0047b3',
@@ -104,6 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#f0f0f0',
     padding: 10,
+    paddingHorizontal: 20,
     marginBottom: 10,
     borderRadius: 8,
   },

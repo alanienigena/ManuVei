@@ -92,132 +92,132 @@ export default function Task({ navigation }) {
     <View style={styles.container}>
       {/* Container para os filtros */}
       <View style={styles.filterContainer}>
-        {/* Filtro por modelo */}
-        <TextInput
-          style={styles.input}
-          placeholder="Filtrar por modelo"
-          onChangeText={(text) => setFilterModel(text)}
-          value={filterModel}
-          onBlur={handleFilterTasks}
-        />
-
-        {/* Filtro por marca */}
-        <TextInput
-          style={styles.input}
-          placeholder="Filtrar por marca"
-          onChangeText={(text) => setFilterBrand(text)}
-          value={filterBrand}
-          onBlur={handleFilterTasks}
-        />
-
-        {/* Filtro por data */}
-        <TextInputMask
-          style={styles.input}
-          placeholder="Filtrar por data - Mês e Ano"
-          type="datetime"
-          options={{
-            format: 'MM/YYYY',
-          }}
-          value={filterDate}
-          onChangeText={(text) => setFilterDate(text)}
-          onBlur={handleFilterTasks}
-        />
-
-        {/* Filtro por status */}
-        <Picker
-          style={styles.statusPicker}
-          selectedValue={filterStatus}
-          onValueChange={(itemValue) => setFilterStatus(itemValue)}
-        >
-          <Picker.Item label="Todos" value="All" />
-          <Picker.Item label="Concluídos" value="Completed" />
-          <Picker.Item label="Em Aberto" value="Open" />
-        </Picker>
-
-        {/* Botão para aplicar os filtros */}
-        <TouchableOpacity style={styles.filterButton} onPress={handleFilterTasks}>
-          <Text style={styles.filterButtonText}>Filtrar</Text>
-        </TouchableOpacity>
+        <Text style={styles.filterTitulo}>Filtros</Text>
+        <View style={styles.filterItem}>
+          {/* Filtro por modelo */}
+          <TextInput
+            style={styles.input}
+            placeholder="Filtrar por modelo"
+            onChangeText={(text) => setFilterModel(text)}
+            value={filterModel}
+            onBlur={handleFilterTasks}
+          />
+        </View>
+        <View style={styles.filterItem}>
+          {/* Filtro por marca */}
+          <TextInput
+            style={styles.input}
+            placeholder="Filtrar por marca"
+            onChangeText={(text) => setFilterBrand(text)}
+            value={filterBrand}
+            onBlur={handleFilterTasks}
+          />
+        </View>
+        <View style={styles.filterItem}>
+          {/* Filtro por data */}
+          <TextInputMask
+            style={styles.input}
+            placeholder="Filtrar por data - Mês e Ano"
+            type="datetime"
+            options={{
+              format: 'MM/YYYY',
+            }}
+            value={filterDate}
+            onChangeText={(text) => setFilterDate(text)}
+            onBlur={handleFilterTasks}
+          />
+        </View>
+        <View style={styles.filterItem}>
+          {/* Filtro por status */}
+          <Picker
+            style={styles.statusPicker}
+            selectedValue={filterStatus}
+            onValueChange={(itemValue) => setFilterStatus(itemValue)}
+          >
+            <Picker.Item label="Todos" value="All" />
+            <Picker.Item label="Concluídos" value="Completed" />
+            <Picker.Item label="Em Aberto" value="Open" />
+          </Picker>
+        </View>
+        <View style={styles.filterItem}>
+          {/* Botão para aplicar os filtros */}
+          <TouchableOpacity style={styles.filterButton} onPress={handleFilterTasks}>
+            <Text style={styles.filterButtonText}>Filtrar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {/* Container para o valor total gasto */}
-      <View style={styles.totalExpenseContainer}>
-        <Text style={styles.totalExpenseLabel}>Valor Total Gasto:</Text>
-        <Text style={styles.totalExpenseValue}>R$ {totalExpense.toFixed(2)}</Text>
+      <View style={styles.contentContainer}>
+        {/* Container para o valor total gasto */}
+        <View style={styles.totalExpenseContainer}>
+          <Text style={styles.totalExpenseLabel}>Valor Total Gasto:</Text>
+          <Text style={styles.totalExpenseValue}>R$ {totalExpense.toFixed(2)}</Text>
+        </View>
+
+        <Text style={styles.manutencoesTitulo}>Manutenções</Text>
+
+        {/* Lista de tarefas */}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={filteredTasks}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.taskContainer}>
+
+              {/* Item da tarefa */}
+              <TouchableOpacity
+                style={styles.taskDescriptionContainer}
+                onPress={() =>
+                  navigation.navigate('Detalhes', {
+                    id: item.id,
+                    description: item.description,
+                    date: item.date,
+                    model: item.model,
+                    brand: item.brand,
+                    observation: item.observation,
+                    expense: item.expense,
+                    isCompleted: item.isCompleted,
+                  })
+                }
+              >
+                {/* Detalhes da tarefa */}
+                <View style={styles.taskDetailsContainer}>
+                  <View style={styles.taskColumn}>
+                    <Text style={styles.taskTitle}>Descrição: <Text style={styles.taskValue}>{item.description}</Text></Text>
+                    <Text style={styles.taskTitle}>Data: <Text style={styles.taskValue}>{item.date}</Text></Text>
+                    <Text style={styles.taskTitle}>Modelo: <Text style={styles.taskValue}>{item.model}</Text></Text>
+                    <Text style={styles.taskTitle}>Marca: <Text style={styles.taskValue}>{item.brand}</Text></Text>
+                  </View>
+                  <View style={styles.taskColumn}>
+                    <Text style={styles.taskTitle}>Observação: <Text style={styles.taskValue}>{item.observation}</Text></Text>
+                    <Text style={styles.taskTitle}>Valor: <Text style={styles.taskValue}>R$ {item.expense}</Text></Text>
+                    <Text style={styles.taskTitle}>Status: 
+                      <Text
+                        style={[
+                          styles.taskValue,
+                          item.isCompleted ? styles.completedStatus : styles.openStatus,
+                        ]}
+                      >
+                        {item.isCompleted ? 'Concluída' : 'Em aberto'}
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+
+              {/* Botão para excluir a tarefa */}
+              <TouchableOpacity
+                style={styles.deleteTask}
+                onPress={() => handleDeleteTask(item.id)}
+              >
+                <FontAwesome name="trash" size={23} color="#0047b3" />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       </View>
 
-      {/* Lista de tarefas */}
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={filteredTasks}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.taskContainer}>
-            {/* Botão para excluir a tarefa */}
-            <TouchableOpacity
-              style={styles.deleteTask}
-              onPress={() => handleDeleteTask(item.id)}
-            >
-              <FontAwesome name="trash" size={23} color="#0047b3" />
-            </TouchableOpacity>
-
-            {/* Item da tarefa */}
-            <TouchableOpacity
-              style={styles.taskDescriptionContainer}
-              onPress={() =>
-                navigation.navigate('Detalhes', {
-                  id: item.id,
-                  description: item.description,
-                  date: item.date,
-                  model: item.model,
-                  brand: item.brand,
-                  observation: item.observation,
-                  expense: item.expense,
-                  isCompleted: item.isCompleted,
-                })
-              }
-            >
-              {/* Detalhes da tarefa */}
-              <View style={styles.taskDetailsContainer}>
-                <View style={styles.taskColumn}>
-                  <Text style={styles.taskTitle}>Descrição:</Text>
-                  <Text style={styles.taskTitle}>Data:</Text>
-                  <Text style={styles.taskTitle}>Modelo:</Text>
-                  <Text style={styles.taskTitle}>Marca:</Text>
-                </View>
-                <View style={styles.taskColumn}>
-                  <Text style={styles.taskValue}>{item.description}</Text>
-                  <Text style={styles.taskValue}>{item.date}</Text>
-                  <Text style={styles.taskValue}>{item.model}</Text>
-                  <Text style={styles.taskValue}>{item.brand}</Text>
-                </View>
-              </View>
-              {/* Observação da tarefa */}
-              <View style={styles.taskObservationContainer}>
-                <Text style={styles.taskTitle}>Observação:</Text>
-                <Text style={styles.taskValue}>{item.observation}</Text>
-              </View>
-              {/* Valor da tarefa */}
-              <View style={styles.taskExpenseContainer}>
-                <Text style={styles.taskTitle}>Valor:</Text>
-                <Text style={styles.taskValue}>R$ {item.expense}</Text>
-              </View>
-              {/* Status da tarefa */}
-              <View style={styles.taskStatusContainer}>
-                <Text style={styles.taskTitle}>Status:</Text>
-                <Text
-                  style={[
-                    styles.taskStatus,
-                    item.isCompleted ? styles.completedStatus : styles.openStatus,
-                  ]}
-                >
-                  {item.isCompleted ? 'Concluída' : 'Em aberto'}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      
 
       {/* Botão para adicionar uma nova tarefa */}
       <TouchableOpacity

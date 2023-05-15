@@ -44,96 +44,98 @@ export default function Details({ navigation, route }) {
   
   return (
     <View style={styles.container}>
-      {/* Campo de edição: Descrição */}
-      <Text style={styles.label}>Descrição</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Troca de Óleo, Revisão, etc..."
-        onChangeText={setDescriptionEdit}
-        value={descriptionEdit}
-      />
-
-      {/* Campo de edição: Data */}
-      <Text style={styles.label}>Data</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: DD/MM/AAAA"
-        onChangeText={setDateEdit}
-        value={dateEdit}
-      />
-
-      {/* Campo de edição: Modelo */}
-      <Text style={styles.label}>Modelo</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Sedan, Hatch, SUV"
-        onChangeText={setModelEdit}
-        value={modelEdit}
-      />
-
-      {/* Campo de edição: Marca */}
-      <Text style={styles.label}>Marca</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Toyota, Honda, Ford"
-        onChangeText={setBrandEdit}
-        value={brandEdit}
-      />
-
-      {/* Campo de edição: Observação */}
-      <Text style={styles.label}>Observação</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Observações adicionais"
-        onChangeText={setObservationEdit}
-        value={observationEdit}
-      />
-
-            {/* Campo de edição: Valor Gasto */}
-            <Text style={styles.label}>Valor Gasto</Text>
-      <TextInputMask
-        style={styles.input}
-        placeholder="Ex: 100.00"
-        type="money"
-        options={{
-          precision: 2,
-          separator: '.',
-          delimiter: ',',
-          unit: 'R$ ',
-          suffixUnit: '',
-        }}
-        value={expenseEdit}
-        onChangeText={setExpenseEdit}
-        keyboardType="numeric"
-      />
-
-      {/* Campo de edição: Status de Conclusão */}
-      <View style={styles.checkboxContainer}>
-        <Text style={styles.checkboxLabel}>Manutenção Realizada</Text>
-        <Switch
-          value={isCompleted}
-          onValueChange={(value) => setIsCompleted(value)}
+      <View style={styles.content}>
+        {/* Campo de edição: Descrição */}
+        <Text style={styles.label}>Descrição</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Troca de Óleo, Revisão, etc..."
+          onChangeText={setDescriptionEdit}
+          value={descriptionEdit}
         />
-      </View>
 
-      {/* Botão para salvar as edições */}
-      <TouchableOpacity
-        style={styles.buttonNewTask}
-        onPress={() => {
-          editTask(
-            descriptionEdit,
-            dateEdit,
-            modelEdit,
-            brandEdit,
-            observationEdit,
-            expenseEdit,
-            isCompleted,
-            idTask
-          );
-        }}
-      >
-        <Text style={styles.iconButton}>Salvar</Text>
-      </TouchableOpacity>
+        {/* Campo de edição: Data */}
+        <Text style={styles.label}>Data</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: DD/MM/AAAA"
+          onChangeText={setDateEdit}
+          value={dateEdit}
+        />
+
+        {/* Campo de edição: Modelo */}
+        <Text style={styles.label}>Modelo</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Sedan, Hatch, SUV"
+          onChangeText={setModelEdit}
+          value={modelEdit}
+        />
+
+        {/* Campo de edição: Marca */}
+        <Text style={styles.label}>Marca</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Toyota, Honda, Ford"
+          onChangeText={setBrandEdit}
+          value={brandEdit}
+        />
+
+        {/* Campo de edição: Observação */}
+        <Text style={styles.label}>Observação</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Observações adicionais"
+          onChangeText={setObservationEdit}
+          value={observationEdit}
+        />
+
+        {/* Campo de edição: Valor Gasto */}
+        <Text style={styles.label}>Valor Gasto</Text>
+        <TextInputMask
+          style={styles.input}
+          placeholder="Ex: 100.00"
+          type="money"
+          options={{
+            precision: 2,
+            separator: '.',
+            delimiter: ',',
+            unit: 'R$ ',
+            suffixUnit: '',
+          }}
+          value={expenseEdit}
+          onChangeText={setExpenseEdit}
+          keyboardType="numeric"
+        />
+
+        {/* Campo de edição: Status de Conclusão */}
+        <View style={styles.checkboxContainer}>
+          <Text style={styles.checkboxLabel}>Manutenção Realizada</Text>
+          <Switch
+            value={isCompleted}
+            onValueChange={(value) => setIsCompleted(value)}
+          />
+        </View>
+
+        {/* Botão para salvar as edições */}
+        <TouchableOpacity
+          style={styles.buttonNewTask}
+          onPress={() => {
+            editTask(
+              descriptionEdit,
+              dateEdit,
+              modelEdit,
+              brandEdit,
+              observationEdit,
+              expenseEdit,
+              isCompleted,
+              idTask
+            );
+          }}
+        >
+          <Text style={styles.iconButton}>Salvar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
