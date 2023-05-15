@@ -1,9 +1,15 @@
+/**
+ * Componente de criação de nova tarefa de manutenção.
+ * Permite ao usuário adicionar uma nova tarefa preenchendo os campos de descrição, modelo, marca, data, valor gasto e observação.
+ * Os dados da nova tarefa são salvos no banco de dados e a navegação é redirecionada para a tela principal de manutenções.
+ */
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Picker } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import database from '../../config/firebase.js';
-import styles from './style';
+import styles from './style.js';
 
+// Opções de marcas de carro disponíveis para seleção
 const carBrands = [
   'Selecionar',
   'Toyota',
@@ -28,6 +34,7 @@ const carBrands = [
   'Outro',
 ];
 
+// Opções de modelos de carro disponíveis para seleção
 const carModels = [
   'Selecionar',
   'Sedan',
@@ -53,6 +60,7 @@ const carModels = [
 ];
 
 export default function NewTask({ navigation }, props) {
+  // Estados para armazenar os valores dos campos
   const [description, setDescription] = useState('');
   const [model, setModel] = useState('');
   const [brand, setBrand] = useState('');
@@ -60,7 +68,9 @@ export default function NewTask({ navigation }, props) {
   const [date, setDate] = useState('');
   const [expense, setExpense] = useState('');
 
+  // Função para adicionar uma nova tarefa
   function addTask() {
+    // Verifica se todos os campos obrigatórios foram preenchidos
     if (
       description === '' ||
       model === '' ||
@@ -72,6 +82,7 @@ export default function NewTask({ navigation }, props) {
       return;
     }
 
+    // Salva os dados da nova tarefa no banco de dados
     database.collection('Tasks').add({
       description: description,
       model: model,
@@ -81,11 +92,14 @@ export default function NewTask({ navigation }, props) {
       expense: expense,
       status: false,
     });
+
+    // Navega para a tela principal de manutenções
     navigation.navigate('ManuVei');
   }
 
   return (
     <View style={styles.container}>
+      {/* Campo de edição: Descrição */}
       <Text style={styles.label}>Descrição</Text>
       <TextInput
         style={styles.input}
@@ -93,7 +107,8 @@ export default function NewTask({ navigation }, props) {
         onChangeText={setDescription}
         value={description}
       />
-      <Text style={styles.label}>Modelo</Text>
+            {/* Campo de seleção: Modelo */}
+            <Text style={styles.label}>Modelo</Text>
       <Picker
         style={styles.input}
         selectedValue={model}
@@ -103,6 +118,8 @@ export default function NewTask({ navigation }, props) {
           <Picker.Item key={carModel} label={carModel} value={carModel} />
         ))}
       </Picker>
+
+      {/* Campo de seleção: Marca */}
       <Text style={styles.label}>Marca</Text>
       <Picker
         style={styles.input}
@@ -113,6 +130,8 @@ export default function NewTask({ navigation }, props) {
           <Picker.Item key={carBrand} label={carBrand} value={carBrand} />
         ))}
       </Picker>
+
+      {/* Campo de edição: Data */}
       <Text style={styles.label}>Data</Text>
       <TextInputMask
         style={styles.input}
@@ -122,6 +141,8 @@ export default function NewTask({ navigation }, props) {
         value={date}
         onChangeText={setDate}
       />
+
+      {/* Campo de edição: Valor Gasto */}
       <Text style={styles.label}>Valor Gasto</Text>
       <TextInputMask
         style={styles.input}
@@ -137,6 +158,8 @@ export default function NewTask({ navigation }, props) {
         value={expense}
         onChangeText={setExpense}
       />
+
+      {/* Campo de edição: Observação */}
       <Text style={styles.label}>Observação</Text>
       <TextInput
         style={styles.input}
@@ -144,6 +167,8 @@ export default function NewTask({ navigation }, props) {
         onChangeText={setObservation}
         value={observation}
       />
+
+      {/* Botão para salvar a nova tarefa */}
       <TouchableOpacity style={styles.buttonNewTask} onPress={addTask}>
         <Text style={styles.iconButton}>Salvar</Text>
       </TouchableOpacity>
