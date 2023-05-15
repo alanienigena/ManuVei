@@ -1,15 +1,16 @@
-/**
- * Componente de edição de detalhes de uma tarefa de manutenção.
- * Permite editar os campos da tarefa, como descrição, data, modelo, marca, observação, valor gasto e status de conclusão.
- * Os dados da tarefa são recuperados da rota passada por parâmetro.
- * Os dados editados são salvos no banco de dados e a navegação é redirecionada para a tela principal de manutenções.
- */
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
 import database from '../../config/firebase';
 import styles from './style';
 import { TextInputMask } from 'react-native-masked-text';
 
+
+/**
+ * Componente de edição de detalhes de uma tarefa de manutenção.
+ * Permite editar os campos da tarefa, como descrição, data, modelo, marca, observação, valor gasto e status de conclusão.
+ * Os dados da tarefa são recuperados da rota passada por parâmetro.
+ * Os dados editados são salvos no banco de dados e a navegação é redirecionada para a tela principal de manutenções.
+ */
 export default function Details({ navigation, route }) {
   // Estado para armazenar os valores editados dos campos
   const [descriptionEdit, setDescriptionEdit] = useState(route.params.description);
@@ -40,7 +41,7 @@ export default function Details({ navigation, route }) {
     // Navega para a tela principal de manutenções
     navigation.navigate('ManuVei');
   }
-
+  
   return (
     <View style={styles.container}>
       {/* Campo de edição: Descrição */}

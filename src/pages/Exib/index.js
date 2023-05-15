@@ -222,7 +222,7 @@ export default function Task({ navigation }) {
       {/* Botão para adicionar uma nova tarefa */}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('NovaTarefa')}
+        onPress={() => navigation.navigate('Registrar')}
       >
         <FontAwesome name="plus" size={24} color="white" />
       </TouchableOpacity>
