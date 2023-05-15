@@ -17,6 +17,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
+  filterContainer: {
+    marginBottom: 20,
+  },
+  filterButton: {
+    backgroundColor: '#0047b3',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  filterButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  statusPicker: {
+    marginBottom: 10,
+  },
   taskContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -28,9 +44,6 @@ const styles = StyleSheet.create({
   deleteTask: {
     marginRight: 30,
     marginLeft: 20,
-  },
-  deleteTaskIcon: {
-    color: '#0047b3',
   },
   taskDescriptionContainer: {
     flex: 1,
@@ -55,29 +68,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
   },
-  taskDescription: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  taskDate: {
-    color: '#777',
-    marginBottom: 2,
-  },
-  taskModel: {
-    color: '#777',
-    marginBottom: 2,
-  },
-  taskBrand: {
-    color: '#777',
-    marginBottom: 2,
-  },
-  taskObservation: {
-    color: '#777',
-    marginBottom: 5,
-  },
-  taskExpense: {
-    marginBottom: 10,
+  taskIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   addButton: {
     position: 'absolute',

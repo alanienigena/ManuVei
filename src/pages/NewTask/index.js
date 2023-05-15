@@ -129,8 +129,8 @@ export default function NewTask({ navigation }, props) {
         type="money"
         options={{
           precision: 2,
-          separator: ',',
-          delimiter: '.',
+          separator: '.',
+          delimiter: ',',
           unit: 'R$',
           suffixUnit: '',
         }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, TextInput, Picker } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import database from '../../config/firebase';
 import styles from './style';
@@ -11,6 +11,7 @@ export default function Task({ navigation }) {
   const [filterModel, setFilterModel] = useState('');
   const [filterBrand, setFilterBrand] = useState('');
   const [filterDate, setFilterDate] = useState('');
+  const [filterStatus, setFilterStatus] = useState('All'); // Estado de filtro para o status
   const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
@@ -53,15 +54,26 @@ export default function Task({ navigation }) {
       filtered = filtered.filter((task) => task.date.includes(filterDate));
     }
 
+    // Aplica o filtro por status
+    if (filterStatus !== 'All') {
+      filtered = filtered.filter((task) => {
+        if (filterStatus === 'Completed') {
+          return task.isCompleted;
+        } else {
+          return !task.isCompleted;
+        }
+      });
+    }
+
     setFilteredTasks(filtered);
     calculateTotalExpense(filtered); // Recalcula o valor total gasto com as tarefas filtradas
   }
 
   function calculateTotalExpense(tasks) {
-    const total = tasks.reduce(
-      (sum, task) => sum + parseFloat(task.expense.replace(/[^0-9.-]+/g, '')),
-      0
-    );
+    const total = tasks.reduce((sum, task) => {
+      const expense = parseFloat(task.expense.replace(/[^0-9.-]+/g, '').replace('.', ','));
+      return sum + expense;
+    }, 0);
     setTotalExpense(total);
   }
 
@@ -95,6 +107,19 @@ export default function Task({ navigation }) {
           onChangeText={(text) => setFilterDate(text)}
           onBlur={handleFilterTasks}
         />
+        <Picker
+          style={styles.statusPicker}
+          selectedValue={filterStatus}
+          onValueChange={(itemValue) => setFilterStatus(itemValue)}
+        >
+          <Picker.Item label="Todos" value="All" />
+          <Picker.Item label="Concluídos" value="Completed" />
+          <Picker.Item label="Em Aberto" value="Open" />
+        </Picker>
+
+        <TouchableOpacity style={styles.filterButton} onPress={handleFilterTasks}>
+          <Text style={styles.filterButtonText}>Filtrar</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.totalExpenseContainer}>
@@ -103,76 +128,68 @@ export default function Task({ navigation }) {
       </View>
 
       <FlatList
-  showsVerticalScrollIndicator={false}
-  data={filteredTasks}
-  keyExtractor={(item) => item.id}
-  renderItem={({ item }) => (
-    <View style={styles.taskContainer}>
-      <TouchableOpacity
-        style={styles.deleteTask}
-        onPress={() => handleDeleteTask(item.id)}
-      >
-        <FontAwesome name="trash" size={23} color="#0047b3" />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.taskDescriptionContainer}
-        onPress={() =>
-          navigation.navigate('Detalhes', {
-            id: item.id,
-            description: item.description,
-            date: item.date,
-            model: item.model,
-            brand: item.brand,
-            observation: item.observation,
-            expense: item.expense,
-            isCompleted: item.isCompleted,
-          })
-        }
-      >
-        <View style={styles.taskDetailsContainer}>
-          <View style={styles.taskColumn}>
-            <Text style={styles.taskTitle}>Descrição:</Text>
-            <Text style={styles.taskTitle}>Data:</Text>
-            <Text style={styles.taskTitle}>Modelo:</Text>
-            <Text style={styles.taskTitle}>Marca:</Text>
-          </View>
-          <View style={styles.taskColumn}>
-            <Text style={styles.taskValue}>{item.description}</Text>
-            <Text style={styles.taskValue}>{item.date}</Text>
-            <Text style={styles.taskValue}>{item.model}</Text>
-            <Text style={styles.taskValue}>{item.brand}</Text>
-          </View>
-        </View>
-        <Text style={styles.taskTitle}>Observação:</Text>
-        <Text style={styles.taskValue}>{item.observation}</Text>
-        <Text style={styles.taskTitle}>Valor Gasto:</Text>
-        <Text style={styles.taskValue}>{item.expense}</Text>
+        showsVerticalScrollIndicator={false}
+        data={filteredTasks}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.taskContainer}>
+            <TouchableOpacity
+              style={styles.deleteTask}
+              onPress={() => handleDeleteTask(item.id)}
+            >
+              <FontAwesome name="trash" size={23} color="#0047b3" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.taskDescriptionContainer}
+              onPress={() =>
+                navigation.navigate('Detalhes', {
+                  id: item.id,
+                  description: item.description,
+                  date: item.date,
+                  model: item.model,
+                  brand: item.brand,
+                  observation: item.observation,
+                  expense: item.expense,
+                  isCompleted: item.isCompleted,
+                })
+              }
+            >
+              <View style={styles.taskDetailsContainer}>
+                <View style={styles.taskColumn}>
+                  <Text style={styles.taskTitle}>Descrição:</Text>
+                  <Text style={styles.taskTitle}>Data:</Text>
+                  <Text style={styles.taskTitle}>Modelo:</Text>
+                  <Text style={styles.taskTitle}>Marca:</Text>
+                </View>
+                <View style={styles.taskColumn}>
+                  <Text style={styles.taskValue}>{item.description}</Text>
+                  <Text style={styles.taskValue}>{item.date}</Text>
+                  <Text style={styles.taskValue}>{item.model}</Text>
+                  <Text style={styles.taskValue}>{item.brand}</Text>
+                </View>
+              </View>
+              <Text style={styles.taskTitle}>Observação:</Text>
+              <Text style={styles.taskValue}>{item.observation}</Text>
+              <Text style={styles.taskTitle}>Valor Gasto:</Text>
+              <Text style={styles.taskValue}>{item.expense}</Text>
 
-        {item.isCompleted && (
-          <FontAwesome
-            name="check-circle"
-            size={20}
-            color="#28a745"
-            style={styles.taskIcon}
-          />
+              {item.isCompleted && (
+                <FontAwesome
+                  name="check-circle"
+                  size={20}
+                  color="#28a745"
+                  style={styles.taskIcon}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
         )}
+      />
+
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('Registrar')}>
+        <Text style={styles.addButtonLabel}>Adicionar</Text>
+        <FontAwesome name="plus" size={20} color="#FFF" style={styles.addButtonIcon} />
       </TouchableOpacity>
-    </View>
-  )}
-/>
-
-
-<TouchableOpacity
-  style={styles.addButton}
-  onPress={() => navigation.navigate('Registrar')}
->
-  <Text style={styles.addButtonLabel}>Adicionar</Text>
-  <FontAwesome name="plus" size={20} color="#FFF" style={styles.addButtonIcon} />
-</TouchableOpacity>
-
-
     </View>
   );
 }
-
-       
