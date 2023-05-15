@@ -17,7 +17,7 @@ export default function Details({ navigation, route }) {
 
   function editTask(description, date, model, brand, observation, expense, isCompleted, id) {
     console.log("Valor de isCompleted:", isCompleted); // Adicione esta linha para depurar o valor
-  
+
     database.collection('Tasks').doc(id).update({
       description: description,
       date: date,
@@ -29,7 +29,7 @@ export default function Details({ navigation, route }) {
     });
     navigation.navigate('ManuVei');
   }
-  
+
 
   return (
     <View style={styles.container}>
@@ -96,7 +96,7 @@ export default function Details({ navigation, route }) {
           value={isCompleted}
           onValueChange={(value) => setIsCompleted(value)}
         />
-      </View>       
+      </View>
       <TouchableOpacity
         style={styles.buttonNewTask}
         onPress={() => {
@@ -119,4 +119,4 @@ export default function Details({ navigation, route }) {
 }
 
 
-     
+
