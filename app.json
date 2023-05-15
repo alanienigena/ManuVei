@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tasks",
-    "slug": "tasks",
+    "name": "ManuVei",
+    "slug": "ManuVei",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

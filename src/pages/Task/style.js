@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingTop: 20,
+    width: '80%',
+    alignSelf: 'center',
   },
   input: {
     height: 40,
@@ -24,13 +26,34 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   deleteTask: {
-    marginRight: 10,
+    marginRight: 30,
+    marginLeft: 20,
   },
   deleteTaskIcon: {
     color: '#0047b3',
   },
   taskDescriptionContainer: {
     flex: 1,
+    marginLeft: 10,
+  },
+  taskDetailsContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    paddingBottom: 10,
+  },
+  taskColumn: {
+    flex: 1,
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  taskValue: {
+    fontSize: 14,
+    marginBottom: 5,
   },
   taskDescription: {
     fontSize: 16,
@@ -39,34 +62,47 @@ const styles = StyleSheet.create({
   },
   taskDate: {
     color: '#777',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   taskModel: {
     color: '#777',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   taskBrand: {
     color: '#777',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   taskObservation: {
     color: '#777',
+    marginBottom: 5,
+  },
+  taskExpense: {
+    marginBottom: 10,
   },
   addButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
+    width: 150,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: '#0047b3',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 5,
   },
   addButtonIcon: {
-    color: '#fff',
-    fontSize: 24,
+    fontSize: 20,
+    color: '#FFF',
+    marginLeft: 5,
+  },
+  addButtonLabel: {
+    fontSize: 16,
+    color: '#FFF',
     fontWeight: 'bold',
+    marginLeft: 5,
+    marginRight: 5,
   },
   totalExpenseContainer: {
     flexDirection: 'row',

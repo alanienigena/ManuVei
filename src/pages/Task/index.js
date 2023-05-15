@@ -58,7 +58,10 @@ export default function Task({ navigation }) {
   }
 
   function calculateTotalExpense(tasks) {
-    const total = tasks.reduce((sum, task) => sum + parseFloat(task.expense.replace(/[^0-9.-]+/g, '')), 0);
+    const total = tasks.reduce(
+      (sum, task) => sum + parseFloat(task.expense.replace(/[^0-9.-]+/g, '')),
+      0
+    );
     setTotalExpense(total);
   }
 
@@ -100,58 +103,76 @@ export default function Task({ navigation }) {
       </View>
 
       <FlatList
-showsVerticalScrollIndicator={false}
-data={filteredTasks}
-keyExtractor={(item) => item.id}
-renderItem={({ item }) => (
-<View style={styles.taskContainer}>
+  showsVerticalScrollIndicator={false}
+  data={filteredTasks}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <View style={styles.taskContainer}>
+      <TouchableOpacity
+        style={styles.deleteTask}
+        onPress={() => handleDeleteTask(item.id)}
+      >
+        <FontAwesome name="trash" size={23} color="#0047b3" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.taskDescriptionContainer}
+        onPress={() =>
+          navigation.navigate('Detalhes', {
+            id: item.id,
+            description: item.description,
+            date: item.date,
+            model: item.model,
+            brand: item.brand,
+            observation: item.observation,
+            expense: item.expense,
+            isCompleted: item.isCompleted,
+          })
+        }
+      >
+        <View style={styles.taskDetailsContainer}>
+          <View style={styles.taskColumn}>
+            <Text style={styles.taskTitle}>Descrição:</Text>
+            <Text style={styles.taskTitle}>Data:</Text>
+            <Text style={styles.taskTitle}>Modelo:</Text>
+            <Text style={styles.taskTitle}>Marca:</Text>
+          </View>
+          <View style={styles.taskColumn}>
+            <Text style={styles.taskValue}>{item.description}</Text>
+            <Text style={styles.taskValue}>{item.date}</Text>
+            <Text style={styles.taskValue}>{item.model}</Text>
+            <Text style={styles.taskValue}>{item.brand}</Text>
+          </View>
+        </View>
+        <Text style={styles.taskTitle}>Observação:</Text>
+        <Text style={styles.taskValue}>{item.observation}</Text>
+        <Text style={styles.taskTitle}>Valor Gasto:</Text>
+        <Text style={styles.taskValue}>{item.expense}</Text>
+
+        {item.isCompleted && (
+          <FontAwesome
+            name="check-circle"
+            size={20}
+            color="#28a745"
+            style={styles.taskIcon}
+          />
+        )}
+      </TouchableOpacity>
+    </View>
+  )}
+/>
+
+
 <TouchableOpacity
-style={styles.deleteTask}
-onPress={() => handleDeleteTask(item.id)}
+  style={styles.addButton}
+  onPress={() => navigation.navigate('Registrar')}
 >
-<FontAwesome name="trash" size={23} color="#0047b3" />
+  <Text style={styles.addButtonLabel}>Adicionar</Text>
+  <FontAwesome name="plus" size={20} color="#FFF" style={styles.addButtonIcon} />
 </TouchableOpacity>
-<TouchableOpacity
-          style={styles.taskDescriptionContainer}
-          onPress={() =>
-            navigation.navigate('Detalhes', {
-              id: item.id,
-              description: item.description,
-              date: item.date,
-              model: item.model,
-              brand: item.brand,
-              observation: item.observation,
-              expense: item.expense, // Adicionando o valor gasto à navegação
-              isCompleted: item.isCompleted, // Adicionando o status de conclusão à navegação
-            })
-          }
-        >
-          <Text style={styles.taskDescription}>{item.description}</Text>
-          <Text style={styles.taskDate}>{item.date}</Text>
-          <Text style={styles.taskModel}>{item.model}</Text>
-          <Text style={styles.taskBrand}>{item.brand}</Text>
-          <Text style={styles.taskObservation}>{item.observation}</Text>
-          <Text style={styles.taskExpense}>{item.expense}</Text>
 
-          {item.isCompleted && (
-            <FontAwesome
-              name="check-circle"
-              size={20}
-              color="#28a745"
-              style={styles.taskIcon}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-    )}
-  />
 
-  <TouchableOpacity
-    style={styles.addButton}
-    onPress={() => navigation.navigate('Registrar')}
-  >
-    <Text style={styles.addButtonIcon}>+</Text>
-  </TouchableOpacity>
-</View>
-);
+    </View>
+  );
 }
+
+       
